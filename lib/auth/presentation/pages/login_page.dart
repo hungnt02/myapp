@@ -7,6 +7,7 @@ import 'package:myapp/auth/firebase_auth/firebase_auth_service.dart';
 import 'package:myapp/auth/presentation/pages/sign_up_page.dart';
 import 'package:myapp/auth/firebase_auth/firebase_auth_service.dart';
 import 'package:myapp/common/toast.dart';
+import 'package:myapp/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -181,7 +182,9 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       showToast(message: "User is successfully signed in");
-      Navigator.pushNamed(context, "/home", arguments: user.email);
+      var newUser = new UserModel(
+          username: user.displayName, email: user.email, photo: user.photoURL);
+      Navigator.pushNamed(context, "/home", arguments: newUser);
     } else {
       showToast(message: "some error occured");
     }

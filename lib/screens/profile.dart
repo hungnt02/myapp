@@ -16,6 +16,21 @@ class _ProfileState extends State<ProfileState> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Image.network(
+            'https://firebasestorage.googleapis.com/v0/b/myapp-b8dee.appspot.com/o/images%2Fecd96ea0-cf42-4476-a8e3-53a92e303fff?alt=media&token=efa4d7a2-5c18-4a9b-9d4f-b457011cb91d',
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                return CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                );
+              }
+            },
+          ),
           GestureDetector(
             onTap: () {
               FirebaseAuth.instance.signOut();

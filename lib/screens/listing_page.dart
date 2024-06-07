@@ -1,22 +1,31 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
+
 import 'package:myapp/common/toast.dart';
-import 'package:myapp/models/collection.dart';
+import 'package:myapp/main.dart';
+import 'package:myapp/models/user.dart';
 import 'package:myapp/screens/createItem.dart';
 
 class ListingPage extends StatefulWidget {
-  const ListingPage({super.key});
+  final UserModel data;
+
+  const ListingPage({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   State<ListingPage> createState() => _ListingPage();
 }
 
 class _ListingPage extends State<ListingPage> {
-  final Stream<QuerySnapshot> collection =
-      FirebaseFirestore.instance.collection('collection').snapshots();
-
+  // final Stream<QuerySnapshot> collection = FirebaseFirestore.instance
+  //     .collection(user.email ?? 'default')
+  //     .snapshots();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,7 +52,9 @@ class _ListingPage extends State<ListingPage> {
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
-                      builder: (context) => CreateItem(),
+                      builder: (context) => CreateItem(
+                        user: widget.data,
+                      ),
                     );
                   },
                   icon: const Icon(Icons.add))
@@ -52,7 +63,9 @@ class _ListingPage extends State<ListingPage> {
         ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-              stream: collection,
+              stream: FirebaseFirestore.instance
+                  .collection(widget.data.email ?? 'default')
+                  .snapshots(),
               builder: (
                 BuildContext context,
                 AsyncSnapshot<QuerySnapshot> snapshot,
@@ -71,6 +84,7 @@ class _ListingPage extends State<ListingPage> {
                   children: [
                     ListView.builder(
                       itemBuilder: (context, index) {
+                        // Uint8List  img = getImage(data.docs[index]['picture']);
                         return index < data.docs.length
                             ? HoverContainer(
                                 height: 120,
@@ -92,11 +106,29 @@ class _ListingPage extends State<ListingPage> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Image.network(
-                                        '${data.docs[index]['picture']}',
-                                        width: 100.0,
-                                        height: 90.0,
-                                        fit: BoxFit.fill,
-                                      ),
+                                          data.docs[index]['picture'],
+                                          width: 100.0,
+                                          height: 90.0,
+                                          fit: BoxFit.fill, loadingBuilder:
+                                              (BuildContext context,
+                                                  Widget child,
+                                                  ImageChunkEvent?
+                                                      loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        } else {
+                                          return CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          );
+                                        }
+                                      }),
                                     ),
                                     Container(
                                       margin: const EdgeInsets.only(left: 20),
