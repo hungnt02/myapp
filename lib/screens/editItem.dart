@@ -101,7 +101,7 @@ class _Edititem extends State<Edititem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thêm Mới'),
+        title: Text('Sửa'),
         actions: [
           IconButton(
               onPressed: () {

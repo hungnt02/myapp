@@ -44,9 +44,9 @@ class _ListingPage extends State<ListingPage> {
                 child: const Text(
                   'Collection',
                   style: TextStyle(
-                      fontWeight: FontWeight.w100,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      fontSize: 20),
+                      fontSize: 40),
                 ),
               ),
               IconButton(
