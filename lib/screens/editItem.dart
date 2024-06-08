@@ -10,7 +10,6 @@ import 'package:path/path.dart' as Path;
 import 'package:myapp/common/toast.dart';
 import 'package:myapp/models/collection.dart';
 import 'package:myapp/models/item.dart';
-import 'package:myapp/models/user.dart';
 
 class Edititem extends StatefulWidget {
   final Item itemData;

@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/auth/firebase_auth/firebase_auth_service.dart';
 import 'package:myapp/auth/presentation/pages/sign_up_page.dart';
-import 'package:myapp/auth/firebase_auth/firebase_auth_service.dart';
 import 'package:myapp/common/toast.dart';
 import 'package:myapp/models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

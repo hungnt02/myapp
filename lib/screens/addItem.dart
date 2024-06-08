@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:myapp/common/toast.dart';
 import 'package:myapp/models/collection.dart';
-import 'package:myapp/models/user.dart';
 
 class AddItem extends StatefulWidget {
   final Collection data;
