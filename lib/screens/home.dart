@@ -43,7 +43,12 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: currentPageIndex == 1
-          ? const ProfileState()
+          ? ProfileState(
+              user: UserModel(
+                  username: user.username,
+                  email: user.email,
+                  photo: user.photo),
+            )
           : ListingPage(
               data: UserModel(
                   username: user.username,

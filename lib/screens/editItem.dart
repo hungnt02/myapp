@@ -71,6 +71,13 @@ class _Edititem extends State<Edititem> {
     Navigator.of(context).pop();
   }
 
+  delete(String nameCollection, String nameDocument) {
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection(nameCollection);
+    collection.doc(nameDocument).delete();
+    Navigator.of(context).pop();
+  }
+
   Future uploadFile() async {
     try {
       Reference _reference = FirebaseStorage.instance
@@ -93,8 +100,6 @@ class _Edititem extends State<Edititem> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference collection =
-        FirebaseFirestore.instance.collection('collection');
     return Scaffold(
       appBar: AppBar(
         title: Text('Thêm Mới'),
@@ -154,7 +159,40 @@ class _Edititem extends State<Edititem> {
                     fit: BoxFit.cover,
                   ),
                 ),
-          ElevatedButton(onPressed: selectFile, child: const Text('Tải ảnh'))
+          Container(
+            margin: const EdgeInsets.all(20),
+          ),
+          ElevatedButton(onPressed: selectFile, child: const Text('Tải ảnh')),
+          Container(
+            margin: const EdgeInsets.all(20),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Xác nhận xóa"),
+                      content: const Text("Bạn có chắc xóa mục này?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: const Text("Hủy"),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: const Text("Xóa"),
+                        ),
+                      ],
+                    );
+                  },
+                ).then((confirmed) {
+                  if (confirmed) {
+                    delete(widget.data.id, widget.itemData.id);
+                  }
+                });
+              },
+              child: const Text('Xóa'))
         ],
       ),
     );

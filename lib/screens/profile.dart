@@ -1,9 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:myapp/common/toast.dart';
+import 'package:myapp/models/user.dart';
 
 class ProfileState extends StatefulWidget {
-  const ProfileState({super.key});
+  final UserModel user;
+  const ProfileState({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   State<ProfileState> createState() => _ProfileState();
@@ -16,20 +23,32 @@ class _ProfileState extends State<ProfileState> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(
-            'https://firebasestorage.googleapis.com/v0/b/myapp-b8dee.appspot.com/o/images%2Fecd96ea0-cf42-4476-a8e3-53a92e303fff?alt=media&token=efa4d7a2-5c18-4a9b-9d4f-b457011cb91d',
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              } else {
-                return CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
-                );
-              }
-            },
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.network(
+              widget.user.photo ??
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+              width: 250.0,
+              height: 200.0,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
+          ),
+          Text(
+            widget.user.username ?? '',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
+          ),
+          Text(
+            widget.user.email ?? '',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          Container(
+            margin: EdgeInsets.all(10),
           ),
           GestureDetector(
             onTap: () {
@@ -38,8 +57,8 @@ class _ProfileState extends State<ProfileState> {
               showToast(message: "Successfully signed out");
             },
             child: Container(
-              height: 45,
-              width: 100,
+              height: 35,
+              width: 80,
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(10)),
               child: const Center(
