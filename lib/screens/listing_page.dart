@@ -8,6 +8,7 @@ import 'package:myapp/common/toast.dart';
 import 'package:myapp/models/collection.dart';
 import 'package:myapp/models/user.dart';
 import 'package:myapp/screens/createItem.dart';
+import 'package:myapp/screens/editCollection.dart';
 import 'package:myapp/screens/slice.dart';
 
 class ListingPage extends StatefulWidget {
@@ -116,24 +117,53 @@ class _ListingPage extends State<ListingPage> {
                                       top: 20, right: 30, left: 30),
                                   child: Row(
                                     children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        child: Image.network(
-                                          data.docs[index]['picture'],
-                                          width: 100.0,
-                                          height: 90.0,
-                                          fit: BoxFit.fill,
+                                      Expanded(
+                                        flex: 2,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image.network(
+                                            data.docs[index]['picture'],
+                                            width: 100.0,
+                                            height: 90.0,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 20),
-                                        child: Text(
-                                            '${data.docs[index]['name']}',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20)),
+                                      Expanded(
+                                        flex: 5,
+                                        child: Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 20),
+                                          child: Text(
+                                              '${data.docs[index]['name']}',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20)),
+                                        ),
                                       ),
+                                      Expanded(
+                                          flex: 1,
+                                          child: IconButton(
+                                              onPressed: () {
+                                                showBottomSheet(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        EditCollection(
+                                                          user: widget.data,
+                                                          data: Collection(
+                                                              id: data
+                                                                  .docs[index]
+                                                                  .id,
+                                                              name: data.docs[
+                                                                      index]
+                                                                  ['name'],
+                                                              image: data.docs[
+                                                                      index]
+                                                                  ['picture']),
+                                                        ));
+                                              },
+                                              icon: const Icon(Icons.edit)))
                                     ],
                                   ),
                                 ))

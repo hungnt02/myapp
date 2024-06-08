@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/addItem.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
 import 'package:myapp/models/collection.dart';
+import 'package:myapp/models/item.dart';
+import 'package:myapp/screens/addItem.dart';
+import 'package:myapp/screens/editItem.dart';
 
 class SlicePage extends StatefulWidget {
   final Collection data;
@@ -21,40 +23,16 @@ class _SlicePage extends State<SlicePage> {
   final Collection collectionData;
 
   _SlicePage(this.collectionData);
-  // final List<Widget> fancyCards = <Widget>[
-  //   FancyCard(
-  //     image: Image.asset("assets/pluto-done.png"),
-  //     title: "Say hello to planets!",
-  //   ),
-  //   FancyCard(
-  //     image: Image.asset("assets/pluto-fatal-error.png"),
-  //     title: "Don't be sad!",
-  //   ),
-  //   FancyCard(
-  //     image: Image.asset("assets/pluto-coming-soon.png"),
-  //     title: "Go for a walk!",
-  //   ),
-  //   FancyCard(
-  //     image: Image.asset("assets/pluto-sign-up.png"),
-  //     title: "Try teleportation!",
-  //   ),
-  //   FancyCard(
-  //     image: Image.asset("assets/pluto-waiting.png"),
-  //     title: "Enjoy your coffee!",
-  //   ),
-  //   FancyCard(
-  //     image: Image.asset("assets/pluto-welcome.png"),
-  //     title: "Play with your cat!",
-  //   ),
-  // ];
-
   @override
   Widget build(BuildContext context) {
     // final Stream<QuerySnapshot> collection =
     //     FirebaseFirestore.instance.collection(collectionData.id).snapshots();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Slider!'),
+          title: Text(
+            widget.data.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           actions: [
             IconButton(
                 onPressed: () {
@@ -65,7 +43,7 @@ class _SlicePage extends State<SlicePage> {
                     ),
                   );
                 },
-                icon: Icon(Icons.add))
+                icon: const Icon(Icons.add))
           ],
         ),
         body: StreamBuilder<QuerySnapshot>(
@@ -78,7 +56,9 @@ class _SlicePage extends State<SlicePage> {
               final List<Widget> cart = [];
               for (int i = 0; i < data.docs.length; i++) {
                 cart.add(FancyCard(
-                  image: Image.network(data.docs[i]['picture']),
+                  data: widget.data,
+                  id: data.docs[i].id,
+                  image: data.docs[i]['picture'],
                   vi: data.docs[i]['vi'],
                   en: data.docs[i]['en'],
                 ));
@@ -95,13 +75,17 @@ class _SlicePage extends State<SlicePage> {
 }
 
 class FancyCard extends StatefulWidget {
+  final Collection data;
   const FancyCard({
-    super.key,
+    Key? key,
+    required this.data,
+    required this.id,
     required this.image,
     required this.vi,
     required this.en,
-  });
-  final Image image;
+  }) : super(key: key);
+  final String id;
+  final String image;
   final String vi;
   final String en;
 
@@ -119,6 +103,23 @@ class _FancyCard extends State<FancyCard> {
         padding: const EdgeInsets.all(14.0),
         child: Column(
           children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  showBottomSheet(
+                      context: context,
+                      builder: (context) => Edititem(
+                          itemData: Item(
+                              id: widget.id,
+                              vi: widget.vi,
+                              en: widget.en,
+                              image: widget.image),
+                          data: widget.data));
+                },
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -132,7 +133,9 @@ class _FancyCard extends State<FancyCard> {
               child: Container(
                 width: 250,
                 height: 250,
-                child: widget.image,
+                child: Image.network(
+                  widget.image,
+                ),
               ),
             ),
             Container(
