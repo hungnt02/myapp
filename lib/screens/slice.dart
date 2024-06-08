@@ -52,6 +52,9 @@ class _SlicePage extends State<SlicePage> {
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
               final data = snapshot.requireData;
               final List<Widget> cart = [];
               for (int i = 0; i < data.docs.length; i++) {

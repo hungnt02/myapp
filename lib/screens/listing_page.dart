@@ -74,8 +74,11 @@ class _ListingPage extends State<ListingPage> {
                 if (snapshot.hasError) {
                   showToast(message: 'Something went wong! ');
                 }
-
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 final data = snapshot.requireData;
+
                 if (data.docs.length == 0) {
                   return const Center(child: Text('No Data!'));
                 } else {
