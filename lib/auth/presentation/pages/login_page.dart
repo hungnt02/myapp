@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Login"),
+        // title: Text("Login"),
       ),
       body: Center(
         child: Padding(
@@ -46,23 +46,30 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               const Text(
                 "Login",
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 30,
               ),
               TextFormField(
                 controller: _emailController,
-                // hintText: "Email",
-                // isPasswordField: false,
+                decoration: const InputDecoration(
+                    // icon: Icon(Icons.),
+                    border: OutlineInputBorder(),
+                    hintText: 'Email',
+                    labelText: 'Nhập email'),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextFormField(
                 controller: _passwordController,
-                // hintText: "Password",
-                // isPasswordField: true,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    // icon: Icon(Icons.),
+                    border: OutlineInputBorder(),
+                    hintText: 'Password',
+                    labelText: 'Password'),
               ),
               const SizedBox(
                 height: 30,
@@ -96,40 +103,40 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 10,
               ),
-              GestureDetector(
-                onTap: () {
-                  // _signInWithGoogle();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.google,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Sign in with Google",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     // _signInWithGoogle();
+              //   },
+              //   child: Container(
+              //     width: double.infinity,
+              //     height: 45,
+              //     decoration: BoxDecoration(
+              //       color: Colors.red,
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     child: const Center(
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Icon(
+              //             FontAwesomeIcons.google,
+              //             color: Colors.white,
+              //           ),
+              //           SizedBox(
+              //             width: 5,
+              //           ),
+              //           Text(
+              //             "Sign in with Google",
+              //             style: TextStyle(
+              //               color: Colors.white,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),

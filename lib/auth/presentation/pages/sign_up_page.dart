@@ -33,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("SignUp"),
+        // title: Text("SignUp"),
       ),
       body: Center(
         child: Padding(
@@ -42,32 +42,42 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Sign Up",
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                "SignUp",
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 30,
               ),
               TextFormField(
                 controller: _usernameController,
-                // hintText: "Username",
-                // isPasswordField: false,
+                decoration: const InputDecoration(
+                    // icon: Icon(Icons.),
+                    border: OutlineInputBorder(),
+                    hintText: 'Tên Người Dùng',
+                    labelText: 'Tên Người Dùng'),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextFormField(
                 controller: _emailController,
-                // hintText: "Email",
-                // isPasswordField: false,
+                decoration: const InputDecoration(
+                    // icon: Icon(Icons.),
+                    border: OutlineInputBorder(),
+                    hintText: 'Email',
+                    labelText: 'Nhập email'),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextFormField(
                 controller: _passwordController,
-                // hintText: "Password",
-                // isPasswordField: true,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    // icon: Icon(Icons.),
+                    border: OutlineInputBorder(),
+                    hintText: 'Password',
+                    labelText: 'Password'),
               ),
               const SizedBox(
                 height: 30,
@@ -89,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white,
                             )
                           : const Text(
-                              "Sign Up",
+                              "SignUp",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -137,7 +147,8 @@ class _SignUpPageState extends State<SignUpPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    User? user =
+        await _auth.signUpWithEmailAndPassword(email, password, username);
 
     setState(() {
       isSigningUp = false;

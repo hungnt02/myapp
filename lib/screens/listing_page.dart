@@ -76,102 +76,107 @@ class _ListingPage extends State<ListingPage> {
                 }
 
                 final data = snapshot.requireData;
-                return GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                  ),
-                  primary: false,
-                  shrinkWrap: true,
-                  children: [
-                    ListView.builder(
-                      itemBuilder: (context, index) {
-                        return index < data.docs.length
-                            ? GestureDetector(
-                                onTap: () {
-                                  print(data.docs[index].id);
-                                  Navigator.of(context)
-                                      .push<bool>(MaterialPageRoute(
-                                          builder: (context) => SlicePage(
-                                                data: Collection(
-                                                    id: data.docs[index].id,
-                                                    name: data.docs[index]
-                                                        ['name'],
-                                                    image: data.docs[index]
-                                                        ['picture']),
-                                              )));
-                                },
-                                child: HoverContainer(
-                                  height: 120,
-                                  hoverDecoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    color: Color.fromARGB(255, 224, 178, 178),
-                                  ),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    color: Color.fromARGB(255, 228, 210, 210),
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.only(
-                                      top: 20, right: 30, left: 30),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: Image.network(
-                                            data.docs[index]['picture'],
-                                            width: 100.0,
-                                            height: 90.0,
-                                            fit: BoxFit.fill,
+                if (data.docs.length == 0) {
+                  return const Center(child: Text('No Data!'));
+                } else {
+                  return GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                    ),
+                    primary: false,
+                    shrinkWrap: true,
+                    children: [
+                      ListView.builder(
+                        itemBuilder: (context, index) {
+                          return index < data.docs.length
+                              ? GestureDetector(
+                                  onTap: () {
+                                    print(data.docs[index].id);
+                                    Navigator.of(context)
+                                        .push<bool>(MaterialPageRoute(
+                                            builder: (context) => SlicePage(
+                                                  data: Collection(
+                                                      id: data.docs[index].id,
+                                                      name: data.docs[index]
+                                                          ['name'],
+                                                      image: data.docs[index]
+                                                          ['picture']),
+                                                )));
+                                  },
+                                  child: HoverContainer(
+                                    height: 120,
+                                    hoverDecoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      color: Color.fromARGB(255, 224, 178, 178),
+                                    ),
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      color: Color.fromARGB(255, 228, 210, 210),
+                                    ),
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(
+                                        top: 20, right: 30, left: 30),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: Image.network(
+                                              data.docs[index]['picture'],
+                                              width: 100.0,
+                                              height: 90.0,
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 5,
-                                        child: Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 20),
-                                          child: Text(
-                                              '${data.docs[index]['name']}',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20)),
+                                        Expanded(
+                                          flex: 5,
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 20),
+                                            child: Text(
+                                                '${data.docs[index]['name']}',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20)),
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                          flex: 1,
-                                          child: IconButton(
-                                              onPressed: () {
-                                                showBottomSheet(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        EditCollection(
-                                                          user: widget.data,
-                                                          data: Collection(
-                                                              id: data
-                                                                  .docs[index]
-                                                                  .id,
-                                                              name: data.docs[
-                                                                      index]
-                                                                  ['name'],
-                                                              image: data.docs[
-                                                                      index]
-                                                                  ['picture']),
-                                                        ));
-                                              },
-                                              icon: const Icon(Icons.edit)))
-                                    ],
-                                  ),
-                                ))
-                            : null;
-                      },
-                    )
-                  ],
-                );
+                                        Expanded(
+                                            flex: 1,
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  showBottomSheet(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          EditCollection(
+                                                            user: widget.data,
+                                                            data: Collection(
+                                                                id: data
+                                                                    .docs[index]
+                                                                    .id,
+                                                                name: data.docs[
+                                                                        index]
+                                                                    ['name'],
+                                                                image: data.docs[
+                                                                        index][
+                                                                    'picture']),
+                                                          ));
+                                                },
+                                                icon: const Icon(Icons.edit)))
+                                      ],
+                                    ),
+                                  ))
+                              : null;
+                        },
+                      )
+                    ],
+                  );
+                }
               }),
         ),
       ],
