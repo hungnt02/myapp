@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
 
 import 'package:myapp/common/toast.dart';
-import 'package:myapp/main.dart';
+import 'package:myapp/models/collection.dart';
 import 'package:myapp/models/user.dart';
 import 'package:myapp/screens/createItem.dart';
+import 'package:myapp/screens/slice.dart';
 
 class ListingPage extends StatefulWidget {
   final UserModel data;
@@ -84,60 +84,58 @@ class _ListingPage extends State<ListingPage> {
                   children: [
                     ListView.builder(
                       itemBuilder: (context, index) {
-                        // Uint8List  img = getImage(data.docs[index]['picture']);
                         return index < data.docs.length
-                            ? HoverContainer(
-                                height: 120,
-                                hoverDecoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  color: Color.fromARGB(255, 224, 178, 178),
-                                ),
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  color: Color.fromARGB(255, 228, 210, 210),
-                                ),
-                                padding: const EdgeInsets.all(10),
-                                margin: const EdgeInsets.only(
-                                    top: 20, right: 30, left: 30),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Image.network(
+                            ? GestureDetector(
+                                onTap: () {
+                                  print(data.docs[index].id);
+                                  Navigator.of(context)
+                                      .push<bool>(MaterialPageRoute(
+                                          builder: (context) => SlicePage(
+                                                data: Collection(
+                                                    id: data.docs[index].id,
+                                                    name: data.docs[index]
+                                                        ['name'],
+                                                    image: data.docs[index]
+                                                        ['picture']),
+                                              )));
+                                },
+                                child: HoverContainer(
+                                  height: 120,
+                                  hoverDecoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                    color: Color.fromARGB(255, 224, 178, 178),
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                    color: Color.fromARGB(255, 228, 210, 210),
+                                  ),
+                                  padding: const EdgeInsets.all(10),
+                                  margin: const EdgeInsets.only(
+                                      top: 20, right: 30, left: 30),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: Image.network(
                                           data.docs[index]['picture'],
                                           width: 100.0,
                                           height: 90.0,
-                                          fit: BoxFit.fill, loadingBuilder:
-                                              (BuildContext context,
-                                                  Widget child,
-                                                  ImageChunkEvent?
-                                                      loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        } else {
-                                          return CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
-                                          );
-                                        }
-                                      }),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 20),
-                                      child: Text('${data.docs[index]['name']}',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20)),
-                                    ),
-                                  ],
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 20),
+                                        child: Text(
+                                            '${data.docs[index]['name']}',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20)),
+                                      ),
+                                    ],
+                                  ),
                                 ))
                             : null;
                       },

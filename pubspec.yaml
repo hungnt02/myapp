@@ -45,6 +45,7 @@ dependencies:
   hovering: ^1.0.4
   file_picker: ^8.0.3
   image_picker: ^1.1.2
+  stacked_card_carousel: ^0.0.4
 
 dev_dependencies:
   flutter_test:
